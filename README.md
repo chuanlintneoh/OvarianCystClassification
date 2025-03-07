@@ -96,7 +96,7 @@ Performance comparisons are visualized through plots, and the best-performing mo
 
 To load the model for inference, use:
 
-```
+```python
 from tensorflow.keras.models import load_model
 
 model = load_model("model.h5")
