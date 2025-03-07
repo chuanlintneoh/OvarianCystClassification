@@ -38,6 +38,8 @@ The entire dataset folder was zipped and uploaded to Google Drive, which is moun
 
 ## Tensorflow Implementation
 
+[Click here to view the file](./TensorFlow_Ovarian_Cyst_Classification.ipynb)
+
 ### Data Preprocessing
 
 - Loading images from respective directories
@@ -96,14 +98,51 @@ To load the model for inference, use:
 
 ```
 from tensorflow.keras.models import load_model
+
 model = load_model("model.h5")
 prediction = model.predict(img)
 benign_prob, malignant_prob = prediction[0]
 ```
 
-## PyTorch
+## PyTorch Implementation
 
-## Reference
+[Click here to view the file](./PyTorch_Ovarian_Cyst_Classification.ipynb)
+
+This implementation aims to replicate the findings of a research study, as the original work was not open-sourced. The configurations and parameters used in this project are carefully tuned to align with the details provided in the paper:
+
+[Deep learning-enabled pelvic ultrasound images for accurate diagnosis of ovarian cancer in China: a retrospective, multicentre, diagnostic study](<https://www.thelancet.com/journals/landig/article/PIIS2589-7500(21)00278-8/fulltext>)
+
+### Data Preprocessing
+
+- Loading images from respective directories
+- Assigning labels: Benign images labeled as 1, Malignant images labeled as 0
+- Resizing images to 224x224 pixels
+- Normalizing pixel values to the range 0-1
+- Converting images and labels into PyTorch tensors
+- Splitting data into 80% training and 20% validation sets
+- Computing class weights to address class imbalance
+
+### Image Augmentation
+
+- Random horizontal flip
+- Random rotation (up to 30 degrees)
+- Random affine transformations (translation and scaling)
+
+### Model Architecture
+
+Sequential Model:
+
+1. A freezed pretrained DenseNet121 as feature extractor, top layer excluded for transfer learning
+2. A fully connected layer with 1024 input features and 1 output neuron for binary classification replaced the classifier head
+
+Training Configurations:
+
+- Optimizer: Stochastic Gradient Descent with 0.001 learning rate, 0.9 momentum, 1e-4 weight decay
+- Loss Function: Binary Cross-Entropy with Logits Loss
+- StepLR Scheduler reduces learning rate by factor of 0.1 every 20 epochs.
+- Training Duration: 30 epochs
+
+## References
 
 - [Introduction to DenseNets (Dense CNN)](https://www.analyticsvidhya.com/blog/2022/03/introduction-to-densenets-dense-cnn/)
 - [Convolution Neural Network – Better Understanding](https://www.analyticsvidhya.com/blog/2021/07/convolution-neural-network-better-understanding/)
